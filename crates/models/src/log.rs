@@ -2,15 +2,30 @@ use crate::new_types::{client::ClientId, instrument::InstrId};
 use bytemuck::{Pod, Zeroable};
 
 pub mod log_type {
+    // Client logs
     pub const DEPOSIT: u8 = 1;
     pub const WITHDRAW: u8 = 2;
-    pub const PERP_DEPOSIT: u8 = 3;
-    pub const PERP_WITHDRAW: u8 = 4;
     pub const FEES_DEPOSIT: u8 = 5;
     pub const FEES_WITHDRAW: u8 = 6;
-    pub const SPOT_LP_TRADE: u8 = 7;
     pub const EARNINGS: u8 = 8;
     pub const DRVS_AIRDROP: u8 = 9;
+    pub const VM_INIT_ACTIVATE: u8 = 36;
+    pub const VM_INIT_ACTIVATE_CANCEL: u8 = 37;
+    pub const VM_FINALIZE_ACTIVATE: u8 = 38;
+    pub const VM_INIT_DEACTIVATE: u8 = 39;
+    pub const VM_INIT_DEACTIVATE_CANCEL: u8 = 40;
+    pub const VM_FINALIZE_DEACTIVATE: u8 = 41;
+    pub const VM_CHANGE_LIST: u8 = 42;
+    pub const VM_INIT_WITHDRAW: u8 = 43;
+    pub const VM_INIT_WITHDRAW_CANCEL: u8 = 44;
+    pub const VM_INIT_WITHDRAW_FINALIZE: u8 = 45;
+    pub const CHANGED_POINTS: u8 = 34;
+    pub const MOVE_SPOT: u8 = 32;
+
+    // Instrument logs
+    pub const PERP_DEPOSIT: u8 = 3;
+    pub const PERP_WITHDRAW: u8 = 4;
+    pub const SPOT_LP_TRADE: u8 = 7;
     pub const SPOT_PLACE_ORDER: u8 = 10;
     pub const SPOT_FILL_ORDER: u8 = 11;
     pub const SPOT_NEW_ORDER: u8 = 12;
@@ -33,20 +48,7 @@ pub mod log_type {
     pub const BUY_MARKET_SEAT: u8 = 29;
     pub const SELL_MARKET_SEAT: u8 = 30;
     pub const SWAP_ORDER: u8 = 31;
-    pub const MOVE_SPOT: u8 = 32;
-    pub const NEW_PRIVATE_CLIENT: u8 = 33;
-    pub const CHANGED_POINTS: u8 = 34;
     pub const SWAP_FEES: u8 = 35;
-    pub const VM_INIT_ACTIVATE: u8 = 36;
-    pub const VM_INIT_ACTIVATE_CANCEL: u8 = 37;
-    pub const VM_FINALIZE_ACTIVATE: u8 = 38;
-    pub const VM_INIT_DEACTIVATE: u8 = 39;
-    pub const VM_INIT_DEACTIVATE_CANCEL: u8 = 40;
-    pub const VM_FINALIZE_DEACTIVATE: u8 = 41;
-    pub const VM_CHANGE_LIST: u8 = 42;
-    pub const VM_INIT_WITHDRAW: u8 = 43;
-    pub const VM_INIT_WITHDRAW_CANCEL: u8 = 44;
-    pub const VM_INIT_WITHDRAW_FINALIZE: u8 = 45;
     pub const PERP_LOSS_COVERAGE: u8 = 46;
 }
 
@@ -58,6 +60,7 @@ pub struct PerpLossCoverageReport {
     pub padding_u16: u16,
     pub client_id: ClientId,
     pub loss_coverage: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -69,6 +72,7 @@ pub struct PerpChangeLeverageReport {
     pub client_id: ClientId,
     pub instr_id: InstrId,
     pub time: u32,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -80,7 +84,7 @@ pub struct DrvsAirdropReport {
     pub client_id: ClientId,
     pub amount: i64,
     pub time: u32,
-    pub padding_u32: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -89,6 +93,8 @@ pub struct EarningsReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
@@ -101,6 +107,8 @@ pub struct DepositReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
@@ -114,6 +122,8 @@ pub struct FeesDepositReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
@@ -126,6 +136,8 @@ pub struct FeesWithdrawReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
@@ -142,6 +154,7 @@ pub struct PerpDepositReport {
     pub instr_id: InstrId,
     pub time: u32,
     pub amount: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -155,6 +168,7 @@ pub struct BuyMarketSeatReport {
     pub time: u32,
     pub amount: i64,
     pub seat_price: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -167,6 +181,7 @@ pub struct SellMarketSeatReport {
     pub instr_id: InstrId,
     pub time: u32,
     pub seat_price: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -175,6 +190,8 @@ pub struct WithdrawReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
@@ -192,6 +209,7 @@ pub struct PerpWithdrawReport {
     pub instr_id: InstrId,
     pub time: u32,
     pub amount: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -207,6 +225,7 @@ pub struct SpotlpTradeReport {
     pub qty: i64,
     pub tokens: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -221,6 +240,7 @@ pub struct PerpFillOrderReport {
     pub crncy: i64,
     pub price: i64,
     pub rebates: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -235,6 +255,7 @@ pub struct SpotFillOrderReport {
     pub crncy: i64,
     pub price: i64,
     pub rebates: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -252,6 +273,7 @@ pub struct PerpPlaceOrderReport {
     pub leverage: u32,
     pub time: u32,
     pub padding_u32: u32,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -267,6 +289,7 @@ pub struct SpotPlaceOrderReport {
     pub price: i64,
     pub instr_id: InstrId,
     pub time: u32,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -283,6 +306,7 @@ pub struct PlaceSwapOrderReport {
     pub time: u32,
     pub instr_id: InstrId,
     pub swap_ref_rate: f64,
+    pub seq_no: i64,
 }
 
 // impl std::fmt::Display for SwapOrderReport {
@@ -322,6 +346,7 @@ pub struct PerpPlaceMassCancelReport {
     pub client_id: ClientId,
     pub instr_id: InstrId,
     pub time: u32,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -333,6 +358,7 @@ pub struct SpotPlaceMassCancelReport {
     pub client_id: ClientId,
     pub instr_id: InstrId,
     pub time: u32,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -345,6 +371,7 @@ pub struct PerpMassCancelReport {
     pub order_id: i64,
     pub perps: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -357,6 +384,7 @@ pub struct SpotMassCancelReport {
     pub order_id: i64,
     pub qty: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -368,6 +396,7 @@ pub struct PerpFeesReport {
     pub ref_client_id: ClientId,
     pub fees: i64,
     pub ref_payment: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -379,6 +408,7 @@ pub struct SpotFeesReport {
     pub ref_client_id: ClientId,
     pub fees: i64,
     pub ref_payment: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -391,6 +421,7 @@ pub struct PerpFundingReport {
     pub instr_id: InstrId,
     pub time: u32,
     pub funding: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -403,6 +434,7 @@ pub struct PerpSocLossReport {
     pub instr_id: InstrId,
     pub time: u32,
     pub soc_loss: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -414,6 +446,7 @@ pub struct PerpNewOrderReport {
     pub padding_u32: u32,
     pub perps: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -425,6 +458,7 @@ pub struct SpotNewOrderReport {
     pub padding_u32: u32,
     pub qty: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -439,6 +473,7 @@ pub struct PerpOrderCancelReport {
     pub order_id: i64,
     pub perps: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -453,6 +488,7 @@ pub struct SpotOrderCancelReport {
     pub order_id: i64,
     pub qty: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -465,6 +501,7 @@ pub struct PerpOrderRevokeReport {
     pub order_id: i64,
     pub perps: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -477,6 +514,7 @@ pub struct SpotOrderRevokeReport {
     pub order_id: i64,
     pub qty: i64,
     pub crncy: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -485,6 +523,8 @@ pub struct MoveSpotAvailFundsReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub instr_id: InstrId,
     pub time: u32,
@@ -494,10 +534,12 @@ pub struct MoveSpotAvailFundsReport {
 
 #[repr(C)]
 #[derive(Copy, Clone, Zeroable, Pod, Default)]
-pub struct ChangePointsRecord {
+pub struct ChangePointsReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub points: u32,
     pub time: u32,
@@ -511,6 +553,7 @@ pub struct SwapRefFeesReport {
     pub padding_u16: u16,
     pub padding_u32: u32,
     pub fees: i64,
+    pub seq_no: i64,
 }
 
 #[repr(C)]
@@ -521,7 +564,7 @@ pub struct VmInitActivateReport {
     pub padding_u16: u16,
     pub client_id: ClientId,
     pub time: u32,
-    pub padding: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -532,6 +575,7 @@ pub struct VmInitActivateCancelReport {
     pub padding_u16: u16,
     pub client_id: ClientId,
     pub time: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -542,6 +586,7 @@ pub struct VmFinalizeActivateReport {
     pub padding_u16: u16,
     pub client_id: ClientId,
     pub time: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -552,6 +597,7 @@ pub struct VmInitDeactivateReport {
     pub padding_u16: u16,
     pub client_id: ClientId,
     pub time: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -562,6 +608,7 @@ pub struct VmInitDeactivateCancelReport {
     pub padding_u16: u16,
     pub client_id: ClientId,
     pub time: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -572,6 +619,7 @@ pub struct VmFinalizeDeactivateReport {
     pub padding_u16: u16,
     pub client_id: ClientId,
     pub time: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -582,6 +630,7 @@ pub struct VmChangeListReport {
     pub padding_u16: u16,
     pub client_id: ClientId,
     pub time: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -590,6 +639,8 @@ pub struct VmInitWithdrawReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
@@ -605,6 +656,7 @@ pub struct VmInitWithdrawCancelReport {
     pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
+    pub seq_no: u32,
 }
 
 #[repr(C)]
@@ -613,6 +665,8 @@ pub struct VmInitWithdrawFinalizeReport {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,
+    pub padding_u32: u32,
+    pub seq_no: u32,
     pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
