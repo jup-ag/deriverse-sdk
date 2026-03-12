@@ -49,6 +49,7 @@ pub enum OrderType {
     Market = 1,
     MarginCall = 2,
     MakerOnly = 3,
+    MakerPriceDeviation = 4,
 }
 
 impl std::fmt::Display for OrderType {
@@ -61,6 +62,7 @@ impl std::fmt::Display for OrderType {
                 Self::Market => "Market",
                 Self::MarginCall => "Margin Call",
                 Self::MakerOnly => "Maker Only",
+                Self::MakerPriceDeviation => "Maker Price Deviation",
             }
         )
     }
