@@ -89,6 +89,7 @@ pub mod instr_mask {
         Suspended = 0x20,
         LongMarginCall = 0x40,
         ShortMarginCall = 0x80,
+        ExpandableCandles = 0x100,
     }
 
     impl std::fmt::Display for InstrFlag {
