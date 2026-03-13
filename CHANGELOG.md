@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v2.38] - 2026-03-13
+
+## Added
+- `MakerPriceDeviation` flag in `OrderType`
+- `MAX_DEVIATION` constant (10_000 - 1000 bp)
+
 ## [v2.35] - 2026-03-10
 
 ## Added
