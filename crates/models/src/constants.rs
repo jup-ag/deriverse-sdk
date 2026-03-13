@@ -255,6 +255,7 @@ pub mod trading_limitations {
     pub const SPOT_MAX_AMOUNT: i64 = i64::MAX >> 8;
     pub const MARKET_DEPTH: usize = 20;
     pub const MAX_ORDER_ID: i64 = i64::MAX >> 1;
+    pub const MAX_DEVIATION: i64 = 10_000;
 }
 
 pub mod pool {
