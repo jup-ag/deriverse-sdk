@@ -4,11 +4,12 @@ use std::{error, path::Display};
 use drv_models::{
     constants::TradingSection,
     new_types::instrument::InstrId,
-    state::types::{
-        account_type::AccountType,
-        instr_mask::{InstrFlag, InstrMask},
-        vm_status::VmFlag,
-        AssetType, OrderSide, OrderType, TokenProgram,
+    state::{
+        masks::instr_mask::InstrFlag,
+        types::{
+            account_type::AccountType, vm_status::VmFlag, AssetType, OrderSide, OrderType,
+            TokenProgram, VmWhitelistTag,
+        },
     },
 };
 use serde::{Deserialize, Serialize};
@@ -359,7 +360,7 @@ pub enum DeriverseErrorKind {
     )]
     InsufficientDeriverseTokensSupply { amount: i64, min_amount: i64 },
 
-    #[error(code = 204, msg = "Invalid client Id in client community account")]
+    #[error(code = 204, msg = "Invalid Client Id")]
     InvalidClientId {
         address: Pubkey,
         expected: u32,
@@ -914,6 +915,18 @@ pub enum DeriverseErrorKind {
         msg = "Instrument is suspended, new orders can not be added"
     )]
     SuspendedInstrument,
+
+    #[error(
+        code = 334,
+        msg = "Couldnt find withdrawal address {withdrawal_address}"
+    )]
+    WithdrawalAddressWasNotFound { withdrawal_address: Pubkey },
+
+    #[error(
+        code = 335,
+        msg = "Invalid VmWhitelistTag for requested operation, tag: {tag}"
+    )]
+    InvalidVmWhitelistRecordTag { tag: VmWhitelistTag },
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq)]

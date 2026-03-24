@@ -21,6 +21,7 @@ pub mod log_type {
     pub const VM_INIT_WITHDRAW_FINALIZE: u8 = 45;
     pub const CHANGED_POINTS: u8 = 34;
     pub const MOVE_SPOT: u8 = 32;
+    pub const VM_DIRECT_WITHDRAW: u8 = 47;
 
     // Instrument logs
     pub const PERP_DEPOSIT: u8 = 3;
@@ -668,6 +669,20 @@ pub struct VmInitWithdrawFinalizeReport {
     pub padding_u32: u32,
     pub seq_no: u32,
     pub client_id: u32,
+    pub token_id: u32,
+    pub time: u32,
+    pub amount: i64,
+}
+
+#[repr(C)]
+#[derive(Copy, Clone, Zeroable, Pod, Default)]
+pub struct VmDirectWithdrawReport {
+    pub tag: u8,
+    pub padding_u8: u8,
+    pub padding_u16: u16,
+    pub withdrawal_record_id: u32,
+    pub seq_no: u32,
+    pub client_id: ClientId,
     pub token_id: u32,
     pub time: u32,
     pub amount: i64,
