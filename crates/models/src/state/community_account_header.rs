@@ -1,5 +1,7 @@
 use bytemuck::{Pod, Zeroable};
 
+use crate::state::types::CappedI64;
+
 use super::types::Discriminator;
 
 /// Community Account Header
@@ -29,15 +31,15 @@ use super::types::Discriminator;
 #[derive(Pod, Zeroable, Clone, Copy)]
 pub struct CommunityAccountHeader {
     pub discriminator: Discriminator,
-    pub drvs_tokens: i64,
+    pub drvs_tokens: CappedI64,
     pub min_amount: i64,
-    pub voting_supply: i64,
-    pub prev_voting_supply: i64,
-    pub voting_decr: i64,
+    pub voting_supply: CappedI64,
+    pub prev_voting_supply: CappedI64,
+    pub voting_decr: CappedI64,
     pub prev_voting_decr: i64,
-    pub voting_unchange: i64,
+    pub voting_unchange: CappedI64,
     pub prev_voting_unchange: i64,
-    pub voting_incr: i64,
+    pub voting_incr: CappedI64,
     pub prev_voting_incr: i64,
     pub voting_counter: u32,
     pub voting_start_slot: u32,

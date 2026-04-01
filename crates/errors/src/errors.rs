@@ -1,9 +1,7 @@
 use drv_errors_derive::DrvError;
-use std::{error, path::Display};
 
 use drv_models::{
     constants::TradingSection,
-    new_types::instrument::InstrId,
     state::{
         masks::instr_mask::InstrFlag,
         types::{
@@ -915,6 +913,9 @@ pub enum DeriverseErrorKind {
         msg = "Instrument is suspended, new orders can not be added"
     )]
     SuspendedInstrument,
+
+    #[error(code = 336, msg = "Max number constant overflow")]
+    MaxNumberOverflow,
 
     #[error(
         code = 334,

@@ -220,8 +220,8 @@ pub mod voting {
     pub const MIN_FEE_RATE: u32 = 10;
     pub const MAX_FEE_RATE: u32 = 30;
     pub const FEE_RATE_STEP: f64 = 0.0005;
-    pub const START_SPOT_FEE_RATE: u32 = 20;
-    pub const START_PERP_FEE_RATE: u32 = 20;
+    pub const START_SPOT_FEE_RATE: u32 = 10;
+    pub const START_PERP_FEE_RATE: u32 = 10;
 
     /// Topic 2 - Pool ratio
     pub const MIN_POOL_RATIO: u32 = 4;
@@ -272,6 +272,8 @@ pub const INSTR_ACCOUNT_INITIAL_SIZE: usize =
     INSTR_ACCOUNT_HEADER_SIZE + 4 * LINE_QUOTES_SIZE * MARKET_DEPTH;
 
 pub const MAX_INSTR_COUNT: u32 = 0x10000000;
+
+pub const MAX_NUMBER: i64 = i64::MAX >> 4;
 
 pub mod rebates {
     pub const REBATES_RATIO: f64 = 0.125;

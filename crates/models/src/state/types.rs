@@ -1,8 +1,13 @@
+use std::{fmt::write, ops::Neg};
+
 use bytemuck::{Pod, Zeroable};
 use serde::{Deserialize, Serialize};
 use solana_pubkey::Pubkey;
 
-use crate::new_types::{client::ClientId, tag::Tag, version::Version};
+use crate::{
+    constants::MAX_NUMBER,
+    new_types::{client::ClientId, tag::Tag, version::Version},
+};
 
 #[derive(Clone, Copy, PartialEq, Eq, Debug, Serialize, Deserialize)]
 pub enum OrderSide {
@@ -274,11 +279,11 @@ pub const LINE_QUOTES_SIZE: usize = std::mem::size_of::<LineQuotes>();
 pub struct BaseCrncyRecord {
     pub crncy_token_id: u32,
     pub decs_count: u32,
-    pub funds: i64,
+    pub funds: CappedI64,
     pub rate: f64,
     pub denominator: f64,
-    pub locked_drvs_amount: i64,
-    pub locked_drvs_dividends_value: i64,
+    pub locked_drvs_amount: CappedI64,
+    pub locked_drvs_dividends_value: CappedI64,
     pub mask: i64,
 }
 
@@ -332,8 +337,8 @@ pub struct AssetRecord {
 /// - Each client also maintains a linked list of their orders.
 /// - When an order is not present, the constant `NULL_ORDER` is used to represent a `None` value.
 pub struct Order {
-    pub qty: i64,
-    pub sum: i64,
+    pub qty: CappedI64,
+    pub sum: CappedI64,
     pub order_id: i64,
     pub orig_client_id: ClientId,
     pub client_id: ClientId,
@@ -372,7 +377,7 @@ pub struct Order {
 /// - Prices are aligned to SpotPrams or PerpParams list.
 pub struct PxOrders {
     pub price: i64,
-    pub qty: i64,
+    pub qty: CappedI64,
     pub next: u32,
     pub prev: u32,
     pub sref: u32,
@@ -604,7 +609,7 @@ pub mod quote_status {
     #[derive(Clone, Copy, Debug, Zeroable, Pod)]
     pub struct QuoteOrder {
         pub new_price: i64,
-        pub new_qty: i64,
+        pub new_qty: CappedI64,
         pub old_id: i64,
     }
 
@@ -851,5 +856,49 @@ impl VmWhitelistRecord {
 
     pub fn set_tag(&mut self, tag: VmWhitelistTag) {
         self.tag = tag as u32;
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Pod, Zeroable, Default, PartialOrd, Ord)]
+#[repr(transparent)]
+pub struct CappedI64 {
+    pub value: i64,
+}
+
+impl std::fmt::Display for CappedI64 {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+impl Neg for CappedI64 {
+    type Output = Self;
+
+    fn neg(self) -> Self::Output {
+        Self { value: -self.value }
+    }
+}
+
+impl PartialEq<i64> for CappedI64 {
+    fn eq(&self, other: &i64) -> bool {
+        self.value == *other
+    }
+}
+
+impl PartialOrd<i64> for CappedI64 {
+    fn partial_cmp(&self, other: &i64) -> Option<std::cmp::Ordering> {
+        self.value.partial_cmp(other)
+    }
+}
+
+impl From<i64> for CappedI64 {
+    fn from(value: i64) -> Self {
+        CappedI64 { value }
+    }
+}
+
+impl From<CappedI64> for i64 {
+    fn from(value: CappedI64) -> Self {
+        value.value
     }
 }
