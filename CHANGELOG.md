@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+## [v2.41] - 2026-04-06
+
+## Changed 
+- Extended `Root` with community fields
+
 ## [v2.40] - 2026-04-01
 
 ## Changed
@@ -14,7 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Added
 - `CappedI64`
-- 
+
 ## [v2.39] - 2026-03-31
 
 ## Added
