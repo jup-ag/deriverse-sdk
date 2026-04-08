@@ -2,7 +2,7 @@ use crate::{
     new_types::{instrument::InstrId, version::Version},
     state::{
         masks::instr_mask::InstrInputMask,
-        types::{quote_status::QuoteMask, vm_status::VmMask, CappedI64, SAMFeeType},
+        types::{quote_status::QuoteMask, vm_status::VmMask, CappedI64},
     },
 };
 use bytemuck::{Pod, Zeroable};
@@ -774,6 +774,21 @@ pub struct ActivateClientRefProgramData {
 /// ### FIelds
 /// - `instr_id` - instrument id
 pub struct CleanCandlesData {
+    pub tag: u8,
+    pub padding_u8: u8,
+    pub padding_u16: u16,
+    pub instr_id: InstrId,
+}
+
+#[repr(C)]
+#[derive(Clone, Copy, Pod, Zeroable)]
+/// Extend Candles Data
+///
+/// **Tag** `62`
+///
+/// ### FIelds
+/// - `instr_id` - instrument id
+pub struct ExtendCandlesData {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,

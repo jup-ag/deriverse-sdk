@@ -5,21 +5,17 @@ use trading_limitations::MARKET_DEPTH;
 
 use crate::{
     constants::time::{DAY, MINUTE, WEEK},
-    state::{
-        instrument::INSTR_ACCOUNT_HEADER_SIZE,
-        types::{
-            account_type::{SPOT_15M_CANDLES, SPOT_1M_CANDLES, SPOT_DAY_CANDLES},
-            LINE_QUOTES_SIZE,
-        },
-    },
+    state::{instrument::INSTR_ACCOUNT_HEADER_SIZE, types::LINE_QUOTES_SIZE},
 };
 
 pub mod candles {
 
+    use crate::state::candles::{DAY_CANDLE, M15_CANDLE, M1_CANDLE};
+
     use super::*;
     #[derive(Clone, Copy)]
     pub struct CandleParams {
-        pub tag: u32,
+        pub kind: u16,
         pub capacity: u32,
         pub duration: u32,
     }
@@ -39,22 +35,24 @@ pub mod candles {
     pub const CANDLES: CandleRegister = CandleRegister {
         candles: &[
             CandleParams {
-                tag: SPOT_1M_CANDLES,
+                kind: M1_CANDLE,
                 capacity: 10080,
                 duration: 60,
             },
             CandleParams {
-                tag: SPOT_15M_CANDLES,
+                kind: M15_CANDLE,
                 capacity: 2688,
                 duration: 900,
             },
             CandleParams {
-                tag: SPOT_DAY_CANDLES,
+                kind: DAY_CANDLE,
                 capacity: 5844,
                 duration: 86400,
             },
         ],
     };
+
+    pub const NULL_CANDLE: u16 = 0xFFFF;
 }
 
 pub mod price_helper {
