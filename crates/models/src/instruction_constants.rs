@@ -30,7 +30,7 @@ impl DrvInstruction for PerpWithdrawInstruction {
 pub struct NewBaseCrncyInstruction;
 impl DrvInstruction for NewBaseCrncyInstruction {
     const INSTRUCTION_NUMBER: u8 = 4;
-    const MIN_ACCOUNTS: usize = 9;
+    const MIN_ACCOUNTS: usize = 8;
 }
 
 pub struct FeesDepositInstruction;
@@ -48,7 +48,7 @@ impl DrvInstruction for DepositInstruction {
 pub struct WithdrawInstruction;
 impl DrvInstruction for WithdrawInstruction {
     const INSTRUCTION_NUMBER: u8 = 8;
-    const MIN_ACCOUNTS: usize = 10;
+    const MIN_ACCOUNTS: usize = 9;
 }
 
 pub struct NewInstrumentInstruction;
@@ -114,7 +114,7 @@ impl DrvInstruction for DividendsAllocationInstruction {
 pub struct SwapInstruction;
 impl DrvInstruction for SwapInstruction {
     const INSTRUCTION_NUMBER: u8 = 26;
-    const MIN_ACCOUNTS: usize = 16;
+    const MIN_ACCOUNTS: usize = 14;
 }
 
 pub struct AirdropInstruction;
@@ -352,7 +352,7 @@ impl DrvInstruction for VmInitWithdrawCancel {
 pub struct VmInitWithdrawFinalize;
 impl DrvInstruction for VmInitWithdrawFinalize {
     const INSTRUCTION_NUMBER: u8 = 71;
-    const MIN_ACCOUNTS: usize = 11;
+    const MIN_ACCOUNTS: usize = 10;
 }
 
 pub struct VmChangeWhitelist;
@@ -370,7 +370,7 @@ impl DrvInstruction for ExtendCandles {
 pub struct WithdrawSwapFeesInstruction;
 impl DrvInstruction for WithdrawSwapFeesInstruction {
     const INSTRUCTION_NUMBER: u8 = 74;
-    const MIN_ACCOUNTS: usize = 12;
+    const MIN_ACCOUNTS: usize = 11;
 }
 
 pub struct SetSAMMinQtyInstruction;
@@ -406,5 +406,5 @@ impl DrvInstruction for RemoveWithdrawalAddressInstruction {
 pub struct VmDirectWithdrawInstruction;
 impl DrvInstruction for VmDirectWithdrawInstruction {
     const INSTRUCTION_NUMBER: u8 = 80;
-    const MIN_ACCOUNTS: usize = 4;
+    const MIN_ACCOUNTS: usize = 3;
 }
