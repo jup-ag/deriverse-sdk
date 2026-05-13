@@ -5,8 +5,9 @@ use drv_models::{
     state::{
         masks::instr_mask::InstrFlag,
         types::{
-            account_type::AccountType, vm_status::VmFlag, AssetType, OrderSide, OrderType,
-            TokenProgram, VmWhitelistTag,
+            account_type::AccountType,
+            vm_status::{VmFlag, VmMask},
+            AssetRecord, AssetType, OrderSide, OrderType, TokenProgram, VmWhitelistTag,
         },
     },
 };
@@ -934,6 +935,30 @@ pub enum DeriverseErrorKind {
 
     #[error(code = 337, msg = "Corrupted candles records")]
     CorruptedCandlesRecords,
+
+    #[error(
+        code = 338,
+        msg = "Impossible to close account with active vm mode procedure"
+    )]
+    ImpossibleToCloseAccountVmMode { vm_mask: u32 },
+
+    #[error(
+        code = 339,
+        msg = "Impossible to close account with unclosed {asset_record}"
+    )]
+    ImpossibleToCloseAccountUnclosedAsset { asset_record: AssetRecord },
+
+    #[error(
+        code = 340,
+        msg = "Uncollected fees prepayment for token with id {crncy_token_id}"
+    )]
+    UncollectedFeesPrepayment { crncy_token_id: u32 },
+
+    #[error(
+        code = 340,
+        msg = "Uncollected dividends for token with id {crncy_token_id}"
+    )]
+    UncollectedDividendsPrepayment { crncy_token_id: u32 },
 }
 
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
