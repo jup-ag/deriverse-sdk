@@ -409,14 +409,50 @@ impl DrvInstruction for VmDirectWithdrawInstruction {
     const MIN_ACCOUNTS: usize = 3;
 }
 
+pub struct VmAddKaminoInstruction;
+impl DrvInstruction for VmAddKaminoInstruction {
+    const INSTRUCTION_NUMBER: u8 = 81;
+    const MIN_ACCOUNTS: usize = 4;
+}
+
+pub struct VmRemoveKaminoInstruction;
+impl DrvInstruction for VmRemoveKaminoInstruction {
+    const INSTRUCTION_NUMBER: u8 = 82;
+    const MIN_ACCOUNTS: usize = 4;
+}
+
+pub struct KaminoInitObligationInstruction;
+impl DrvInstruction for KaminoInitObligationInstruction {
+    const INSTRUCTION_NUMBER: u8 = 83;
+    const MIN_ACCOUNTS: usize = 12;
+}
+
+pub struct KaminoInitTokenAccountsInstruction;
+impl DrvInstruction for KaminoInitTokenAccountsInstruction {
+    const INSTRUCTION_NUMBER: u8 = 84;
+    const MIN_ACCOUNTS: usize = 11;
+}
+
+pub struct KaminoChangePositionInstruction;
+impl DrvInstruction for KaminoChangePositionInstruction {
+    const INSTRUCTION_NUMBER: u8 = 85;
+    const MIN_ACCOUNTS: usize = 39;
+}
+
+pub struct KaminoInitObligationFarmsInstruction;
+impl DrvInstruction for KaminoInitObligationFarmsInstruction {
+    const INSTRUCTION_NUMBER: u8 = 86;
+    const MIN_ACCOUNTS: usize = 14;
+}
+
 pub struct CloseAccountInstruction;
 impl DrvInstruction for CloseAccountInstruction {
-    const INSTRUCTION_NUMBER: u8 = 81;
+    const INSTRUCTION_NUMBER: u8 = 87;
     const MIN_ACCOUNTS: usize = 6;
 }
 
 pub struct SetForeignDepositInstruction;
 impl DrvInstruction for SetForeignDepositInstruction {
-    const INSTRUCTION_NUMBER: u8 = 82;
+    const INSTRUCTION_NUMBER: u8 = 88;
     const MIN_ACCOUNTS: usize = 3;
 }
