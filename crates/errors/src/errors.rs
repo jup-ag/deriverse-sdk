@@ -987,19 +987,7 @@ pub enum DeriverseErrorKind {
     #[error(code = 347, msg = "Kamino change_position called with no-op deltas")]
     KaminoChangePositionNoOp,
 
-    #[error(
-        code = 348,
-        msg = "Kamino reserve farm-state account mismatch (passed={passed}, expected={expected})"
-    )]
-    KaminoReserveFarmMismatch { passed: Pubkey, expected: Pubkey },
-
-    #[error(
-        code = 349,
-        msg = "Kamino obligation_farm PDA mismatch (passed={passed}, expected={expected})"
-    )]
-    KaminoObligationFarmMismatch { passed: Pubkey, expected: Pubkey },
-
-    #[error(code = 350, msg = "Invalid Kamino farms program id")]
+    #[error(code = 348, msg = "Invalid Farms Program Id")]
     InvalidFarmsProgramId,
 
     #[error(
