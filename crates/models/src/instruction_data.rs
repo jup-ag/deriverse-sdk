@@ -898,7 +898,16 @@ pub struct VmRemoveKaminoData {
 
 #[repr(C)]
 #[derive(Clone, Copy, Pod, Zeroable)]
-pub struct KaminoInitTokenAccountsData {
+pub struct KaminoInitObligationData {
+    pub tag: u8,
+    pub padding_u8: u8,
+    pub padding_u16: u16,
+    pub instr_id: InstrId,
+}
+
+#[repr(C)]
+#[derive(Clone, Copy, Pod, Zeroable)]
+pub struct KaminoInitInstrumentData {
     pub tag: u8,
     pub padding_u8: u8,
     pub padding_u16: u16,

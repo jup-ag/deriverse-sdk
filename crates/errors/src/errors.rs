@@ -987,7 +987,19 @@ pub enum DeriverseErrorKind {
     #[error(code = 347, msg = "Kamino change_position called with no-op deltas")]
     KaminoChangePositionNoOp,
 
-    #[error(code = 348, msg = "Invalid Farms Program Id")]
+    #[error(
+        code = 348,
+        msg = "Kamino reserve farm-state account mismatch (passed={passed}, expected={expected})"
+    )]
+    KaminoReserveFarmMismatch { passed: Pubkey, expected: Pubkey },
+
+    #[error(
+        code = 349,
+        msg = "Kamino obligation_farm PDA mismatch (passed={passed}, expected={expected})"
+    )]
+    KaminoObligationFarmMismatch { passed: Pubkey, expected: Pubkey },
+
+    #[error(code = 350, msg = "Invalid Kamino farms program id")]
     InvalidFarmsProgramId,
 
     #[error(
@@ -1035,6 +1047,19 @@ pub enum DeriverseErrorKind {
         token_acc_address: Pubkey,
         expected_amount: u64,
         actual_amount: u64,
+    },
+
+    #[error(code = 359, msg = "Invalid Kamino account {account_address}")]
+    InvalidKaminoAccount { account_address: Pubkey },
+
+    #[error(
+        code = 360,
+        msg = "Expected different Kamino account {account_address}"
+    )]
+    ExpectedDifferentKaminoAccount {
+        account_address: Pubkey,
+        expected_discriminator: [u8; 8],
+        actual_discriminator: [u8; 8],
     },
 }
 

@@ -8,9 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [v2.60]
 
 ## Changed
-- Removed `kamino_init_reserves_farms`
-- Removed `farms` from `kamino_change_position`
-- Removed `instr_acc` from `kamino_init_obligation`
+- Removed `kamino_init_farms_ix` and `kamino_init_tokens_ix` created `kamino_init_instrument` ix
 
 ## [v2.59]
 
