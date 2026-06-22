@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 - New instruction data `SetForeignDepositData` 
 
+## [v2.67]
+
+## Added
+- New instruction data `SetForeignDepositData` 
+
 ## [v2.66]
 
 ## Added
